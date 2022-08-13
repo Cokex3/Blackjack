@@ -1,4 +1,4 @@
-// 0 = startgame (shuffle and deal cards), 1 = hit or stand , 2 = wager phase
+// 0 = wager phase, 1 = startgame (shuffle and deal cards), 1 = hit or stand ,
 state = 0;
 playerMoney = 100;
 playerHand = [];
@@ -7,17 +7,297 @@ playerScore = "";
 dealerHand = [];
 dealerCurrentCards = "";
 dealerScore = "";
-shuffleddeck = [];
-
+shuffledDeck = [];
+wagerAmount = 0;
+deck = [];
 var main = function (input) {
+  input = Number(input);
   if (state == 0) {
+    if (playerMoney <= 0) {
+      return `You have no more money... <br> Try refreshing to reset your money to $100`;
+    }
+    if (isNaN(input) == true || input <= 0) {
+      return `Please enter your wager amount. <br> You currently have: $${playerMoney}`;
+    }
+    if (input > playerMoney) {
+      return `You do not have enough money. <br> You currently have: $${playerMoney}`;
+    }
+    if (isNaN(input) == false && input > 0) {
+      wagerAmount = input;
+      state = 1;
+      return `You have wagered $${wagerAmount}.<br> You currently have: $${playerMoney}. <br> Press <b>Start</b> to start the game!`;
+    }
+  }
+  if (state == 1) {
     playerHand = [];
     playerCurrentCards = "";
     playerScore = "";
     dealerHand = [];
     dealerCurrentCards = "";
     dealerScore = "";
-    shuffleddeck = [];
+    shuffledDeck = [];
+    deck = [
+      {
+        name: "A",
+        suit: "♥",
+        rank: 11,
+      },
+      {
+        name: "2",
+        suit: "♥",
+        rank: 2,
+      },
+      {
+        name: "3",
+        suit: "♥",
+        rank: 3,
+      },
+      {
+        name: "4",
+        suit: "♥",
+        rank: 4,
+      },
+      {
+        name: "5",
+        suit: "♥",
+        rank: 5,
+      },
+      {
+        name: "6",
+        suit: "♥",
+        rank: 6,
+      },
+      {
+        name: "7",
+        suit: "♥",
+        rank: 7,
+      },
+      {
+        name: "8",
+        suit: "♥",
+        rank: 8,
+      },
+      {
+        name: "9",
+        suit: "♥",
+        rank: 9,
+      },
+      {
+        name: "10",
+        suit: "♥",
+        rank: 10,
+      },
+      {
+        name: "J",
+        suit: "♥",
+        rank: 10,
+      },
+      {
+        name: "Q",
+        suit: "♥",
+        rank: 10,
+      },
+      {
+        name: "K",
+        suit: "♥",
+        rank: 10,
+      },
+      {
+        name: "A",
+        suit: "♦",
+        rank: 11,
+      },
+      {
+        name: "2",
+        suit: "♦",
+        rank: 2,
+      },
+      {
+        name: "3",
+        suit: "♦",
+        rank: 3,
+      },
+      {
+        name: "4",
+        suit: "♦",
+        rank: 4,
+      },
+      {
+        name: "5",
+        suit: "♦",
+        rank: 5,
+      },
+      {
+        name: "6",
+        suit: "♦",
+        rank: 6,
+      },
+      {
+        name: "7",
+        suit: "♦",
+        rank: 7,
+      },
+      {
+        name: "8",
+        suit: "♦",
+        rank: 8,
+      },
+      {
+        name: "9",
+        suit: "♦",
+        rank: 9,
+      },
+      {
+        name: "10",
+        suit: "♦",
+        rank: 10,
+      },
+      {
+        name: "J",
+        suit: "♦",
+        rank: 10,
+      },
+      {
+        name: "Q",
+        suit: "♦",
+        rank: 10,
+      },
+      {
+        name: "K",
+        suit: "♦",
+        rank: 10,
+      },
+      {
+        name: "A",
+        suit: "♣",
+        rank: 11,
+      },
+      {
+        name: "2",
+        suit: "♣",
+        rank: 2,
+      },
+      {
+        name: "3",
+        suit: "♣",
+        rank: 3,
+      },
+      {
+        name: "4",
+        suit: "♣",
+        rank: 4,
+      },
+      {
+        name: "5",
+        suit: "♣",
+        rank: 5,
+      },
+      {
+        name: "6",
+        suit: "♣",
+        rank: 6,
+      },
+      {
+        name: "7",
+        suit: "♣",
+        rank: 7,
+      },
+      {
+        name: "8",
+        suit: "♣",
+        rank: 8,
+      },
+      {
+        name: "9",
+        suit: "♣",
+        rank: 9,
+      },
+      {
+        name: "10",
+        suit: "♣",
+        rank: 10,
+      },
+      {
+        name: "J",
+        suit: "♣",
+        rank: 10,
+      },
+      {
+        name: "Q",
+        suit: "♣",
+        rank: 10,
+      },
+      {
+        name: "K",
+        suit: "♣",
+        rank: 10,
+      },
+      {
+        name: "A",
+        suit: "♠",
+        rank: 11,
+      },
+      {
+        name: "2",
+        suit: "♠",
+        rank: 2,
+      },
+      {
+        name: "3",
+        suit: "♠",
+        rank: 3,
+      },
+      {
+        name: "4",
+        suit: "♠",
+        rank: 4,
+      },
+      {
+        name: "5",
+        suit: "♠",
+        rank: 5,
+      },
+      {
+        name: "6",
+        suit: "♠",
+        rank: 6,
+      },
+      {
+        name: "7",
+        suit: "♠",
+        rank: 7,
+      },
+      {
+        name: "8",
+        suit: "♠",
+        rank: 8,
+      },
+      {
+        name: "9",
+        suit: "♠",
+        rank: 9,
+      },
+      {
+        name: "10",
+        suit: "♠",
+        rank: 10,
+      },
+      {
+        name: "J",
+        suit: "♠",
+        rank: 10,
+      },
+      {
+        name: "Q",
+        suit: "♠",
+        rank: 10,
+      },
+      {
+        name: "K",
+        suit: "♠",
+        rank: 10,
+      },
+    ];
 
     return gamestart(input);
   }
@@ -58,35 +338,39 @@ var scoreCalculation = function (hand) {
 };
 
 var gamestart = function () {
-  shuffleddeck = shuffleCards(deck);
-  //console.log(deck);
-  playerHand = shuffleddeck.splice(0, 2);
-  dealerHand = shuffleddeck.splice(0, 2);
+  shuffledDeck = shuffleCards(deck);
+  console.log(deck);
+  playerHand = shuffledDeck.splice(0, 2);
+  //playerHand = [{ name: "A", suit: "♠", rank: 11 },{ name: "K", suit: "♠", rank: 10 },];
+  dealerHand = shuffledDeck.splice(0, 2);
+  //dealerHand = [{ name: "A", suit: "♥", rank: 11 },{ name: "K", suit: "♥", rank: 10 }];
   //console.log(playerHand);
   //console.log(dealerHand);
+  console.log(deck);
   playerCurrentCards = handOutput(playerHand);
   playerScore = scoreCalculation(playerHand);
   dealerCurrentCards = dealerHandOutput();
-  state = 1;
+  state = 2;
   if (playerScore == 21) {
     dealerScore = scoreCalculation(dealerHand);
     dealerCurrentCards = handOutput(dealerHand);
     state = 0;
 
     if (dealerScore == 21) {
-      return `<b>Both you and dealer got Blackjack!♠♠♠ <br> It's a tie <b/> <br> Your cards are : ${playerCurrentCards} <br> Your score is ${playerScore}. 
-      <br><br> The Dealer's cards are ${dealerCurrentCards} <br><br> Press start to play again!`;
+      return `<b>Both you and dealer got Blackjack!♠♠♠ <br> It's a tie! </b> <br> Your cards are : ${playerCurrentCards} <br> Your score is ${playerScore}. 
+      <br><br> The Dealer's cards are ${dealerCurrentCards} <br><br> Press <b>Start</b> to play again! <br> You currently have: $${playerMoney}`;
     }
-    return `<b>Blackjack!♠♠♠ <b/><br> Your cards are : ${playerCurrentCards} <br> Your score is ${playerScore}. <br><br> The Dealer's cards are: ${dealerCurrentCards}
-    <br><br> Press start to play again!`;
+    playerMoney = playerMoney + wagerAmount;
+    return `<b>Blackjack!♠♠♠ </b><br> Your cards are : ${playerCurrentCards} <br> Your score is ${playerScore}. <br><br> The Dealer's cards are: ${dealerCurrentCards}
+    <br><br> You wagered $${wagerAmount}. <br> You currently have: $${playerMoney} <br><br> Press <b>Start</b> to play again!`;
   }
 
   return ` Cards Delt! <br> Your cards are : ${playerCurrentCards} <br> Your score is ${playerScore}. <br><br> The Dealer's cards are: ${dealerCurrentCards}<br><br> Hit or Stand?`;
 };
 
 var hit = function (input) {
-  if (state == 1) {
-    playerHand.push(shuffleddeck.shift());
+  if (state == 2) {
+    playerHand.push(shuffledDeck.shift());
     playerCurrentCards = handOutput(playerHand);
     playerScore = scoreCalculation(playerHand);
     console.log(playerHand);
@@ -102,7 +386,7 @@ var hit = function (input) {
 var stand = function (input) {
   dealerScore = scoreCalculation(dealerHand);
   while (dealerScore < 17) {
-    dealerHand.push(shuffleddeck.shift());
+    dealerHand.push(shuffledDeck.shift());
     dealerScore = scoreCalculation(dealerHand);
   }
   dealerCurrentCards = handOutput(dealerHand);
@@ -110,24 +394,24 @@ var stand = function (input) {
   var results = getResults(playerScore, dealerScore);
   state = 0;
   return `<b>${results}</b> <br> Your cards are : ${playerCurrentCards} <br> Your score is ${playerScore}. <br><br> The Dealer's cards are: ${dealerCurrentCards}
-  <br> Dealer's score is ${dealerScore} <br> <br> Press Start to play again!`;
+  <br> Dealer's score is ${dealerScore} <br> <br> You wagered $${wagerAmount}. <br> You currently have: $${playerMoney} <br><br> Press <b>Start</b> to play again!`;
 };
 
 var getResults = function (playerScore, dealerScore) {
   if (playerScore > dealerScore && playerScore <= 21 && dealerScore <= 21) {
-    playerMoney = playerMoney + 10;
+    playerMoney = playerMoney + wagerAmount;
     return `Player Wins!`;
   }
   if (playerScore < dealerScore && playerScore <= 21 && dealerScore <= 21) {
-    playerMoney = playerMoney - 10;
+    playerMoney = playerMoney - wagerAmount;
     return `Dealer Wins!`;
   }
   if (playerScore <= 21 && dealerScore > 21) {
-    playerMoney = playerMoney + 10;
+    playerMoney = playerMoney + wagerAmount;
     return `Dealer Busted! Player Wins! `;
   }
   if (playerScore > 21 && dealerScore <= 21) {
-    playerMoney = playerMoney - 10;
+    playerMoney = playerMoney - wagerAmount;
     return `You Busted! Dealer Wins!`;
   }
   if (playerScore > 21 && dealerScore > 21) {
@@ -162,266 +446,3 @@ var shuffleCards = function (cardDeck) {
   // Return the shuffled deck
   return cardDeck;
 };
-
-var deck = [
-  {
-    name: "A",
-    suit: "♥",
-    rank: 11,
-  },
-  {
-    name: "2",
-    suit: "♥",
-    rank: 2,
-  },
-  {
-    name: "3",
-    suit: "♥",
-    rank: 3,
-  },
-  {
-    name: "4",
-    suit: "♥",
-    rank: 4,
-  },
-  {
-    name: "5",
-    suit: "♥",
-    rank: 5,
-  },
-  {
-    name: "6",
-    suit: "♥",
-    rank: 6,
-  },
-  {
-    name: "7",
-    suit: "♥",
-    rank: 7,
-  },
-  {
-    name: "8",
-    suit: "♥",
-    rank: 8,
-  },
-  {
-    name: "9",
-    suit: "♥",
-    rank: 9,
-  },
-  {
-    name: "10",
-    suit: "♥",
-    rank: 10,
-  },
-  {
-    name: "J",
-    suit: "♥",
-    rank: 10,
-  },
-  {
-    name: "Q",
-    suit: "♥",
-    rank: 10,
-  },
-  {
-    name: "K",
-    suit: "♥",
-    rank: 10,
-  },
-  {
-    name: "A",
-    suit: "♦",
-    rank: 11,
-  },
-  {
-    name: "2",
-    suit: "♦",
-    rank: 2,
-  },
-  {
-    name: "3",
-    suit: "♦",
-    rank: 3,
-  },
-  {
-    name: "4",
-    suit: "♦",
-    rank: 4,
-  },
-  {
-    name: "5",
-    suit: "♦",
-    rank: 5,
-  },
-  {
-    name: "6",
-    suit: "♦",
-    rank: 6,
-  },
-  {
-    name: "7",
-    suit: "♦",
-    rank: 7,
-  },
-  {
-    name: "8",
-    suit: "♦",
-    rank: 8,
-  },
-  {
-    name: "9",
-    suit: "♦",
-    rank: 9,
-  },
-  {
-    name: "10",
-    suit: "♦",
-    rank: 10,
-  },
-  {
-    name: "J",
-    suit: "♦",
-    rank: 10,
-  },
-  {
-    name: "Q",
-    suit: "♦",
-    rank: 10,
-  },
-  {
-    name: "K",
-    suit: "♦",
-    rank: 10,
-  },
-  {
-    name: "A",
-    suit: "♣",
-    rank: 11,
-  },
-  {
-    name: "2",
-    suit: "♣",
-    rank: 2,
-  },
-  {
-    name: "3",
-    suit: "♣",
-    rank: 3,
-  },
-  {
-    name: "4",
-    suit: "♣",
-    rank: 4,
-  },
-  {
-    name: "5",
-    suit: "♣",
-    rank: 5,
-  },
-  {
-    name: "6",
-    suit: "♣",
-    rank: 6,
-  },
-  {
-    name: "7",
-    suit: "♣",
-    rank: 7,
-  },
-  {
-    name: "8",
-    suit: "♣",
-    rank: 8,
-  },
-  {
-    name: "9",
-    suit: "♣",
-    rank: 9,
-  },
-  {
-    name: "10",
-    suit: "♣",
-    rank: 10,
-  },
-  {
-    name: "J",
-    suit: "♣",
-    rank: 10,
-  },
-  {
-    name: "Q",
-    suit: "♣",
-    rank: 10,
-  },
-  {
-    name: "K",
-    suit: "♣",
-    rank: 10,
-  },
-  {
-    name: "A",
-    suit: "♠",
-    rank: 11,
-  },
-  {
-    name: "2",
-    suit: "♠",
-    rank: 2,
-  },
-  {
-    name: "3",
-    suit: "♠",
-    rank: 3,
-  },
-  {
-    name: "4",
-    suit: "♠",
-    rank: 4,
-  },
-  {
-    name: "5",
-    suit: "♠",
-    rank: 5,
-  },
-  {
-    name: "6",
-    suit: "♠",
-    rank: 6,
-  },
-  {
-    name: "7",
-    suit: "♠",
-    rank: 7,
-  },
-  {
-    name: "8",
-    suit: "♠",
-    rank: 8,
-  },
-  {
-    name: "9",
-    suit: "♠",
-    rank: 9,
-  },
-  {
-    name: "10",
-    suit: "♠",
-    rank: 10,
-  },
-  {
-    name: "J",
-    suit: "♠",
-    rank: 10,
-  },
-  {
-    name: "Q",
-    suit: "♠",
-    rank: 10,
-  },
-  {
-    name: "K",
-    suit: "♠",
-    rank: 10,
-  },
-];
